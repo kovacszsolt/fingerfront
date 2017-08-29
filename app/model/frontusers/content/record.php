@@ -1,9 +1,12 @@
 <?php
-
 namespace model\frontusers\content;
 
 use finger\random as random;
 
+/**
+ * Class record
+ * @package model\frontusers\content
+ */
 class record extends \finger\model\record
 {
 	protected $className = __CLASS__;
@@ -16,6 +19,11 @@ class record extends \finger\model\record
 	private $STATUS_UPLOADER = 1;
 	private $STATUS_TRUSTED = 2;
 
+	/**
+	 * Set Password
+	 * @param $value
+	 * @param bool $encode
+	 */
 	public function setPassword($value, $encode = true)
 	{
 		if ($value != '') {
@@ -23,6 +31,11 @@ class record extends \finger\model\record
 		}
 	}
 
+	/**
+	 * Create Reg Key
+	 * hash
+	 * @return string
+	 */
 	public function createKey()
 	{
 		$_key = random::hash(10);
@@ -30,6 +43,10 @@ class record extends \finger\model\record
 		return $_key;
 	}
 
+	/**
+	 * Status Name
+	 * @return string
+	 */
 	public function getStatusName()
 	{
 		$_return = '';

@@ -2,7 +2,7 @@
 namespace model\newsrss\image;
 
 /**
- * Item image Class table
+ * NewsRSS image Class table
  * @package model\item\image
  */
 class table extends \finger\model\image

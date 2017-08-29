@@ -3,7 +3,7 @@
 namespace model\newsrss\content;
 
 /**
- * Item record Class record
+ * NewsRSS record Class record
  * @package model\item\content
  */
 class record extends \finger\model\record {
@@ -47,20 +47,36 @@ class record extends \finger\model\record {
 		1   => 'Aktív'
 	);
 
+	/**
+	 * Get Type Title
+	 * @return mixed
+	 */
 	public function getTypeTitle() {
 		return $this->b_title;
 	}
 
+	/**
+	 * Get Type URL
+	 * @return mixed
+	 */
 	public function getTypeUrl() {
 		return $this->b_url;
 	}
 
+	/**
+	 * Get Status Title
+	 * @return mixed
+	 */
 	public function getStatusTitle() {
 		$_return = $this->_statusTitle[ $this->getStatus() ];
 
 		return $_return;
 	}
 
+	/**
+	 * Get news rss image
+	 * @return string
+	 */
 	public function getImage() {
 		$_return = '';
 		$_images = $this->getImages();

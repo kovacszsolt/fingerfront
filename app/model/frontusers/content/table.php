@@ -5,6 +5,10 @@ namespace model\frontusers\content;
 use \model\users\content\record as userRecord;
 use \model\users\content\table as userTable;
 
+/**
+ * Class table
+ * @package model\frontusers\content
+ */
 class table extends \finger\database\main
 {
 
@@ -24,6 +28,13 @@ class table extends \finger\database\main
 		'status' => array('type' => 'int(10)')
 	);
 
+	/**
+	 * Login Method
+	 * @param $email
+	 * @param $password
+	 *
+	 * @return array|mixed|null
+	 */
 	public function login($email, $password)
 	{
 		$this->addWhere('email', $email);
@@ -35,6 +46,12 @@ class table extends \finger\database\main
 		return $_return;
 	}
 
+	/**
+	 * Find user via e-mail
+	 * @param $email
+	 *
+	 * @return array|mixed|null
+	 */
 	public function findEmail($email)
 	{
 		$this->addWhere('email', $email);
@@ -45,6 +62,12 @@ class table extends \finger\database\main
 		return $_return;
 	}
 
+	/**
+	 * Find user via key
+	 * @param $key
+	 *
+	 * @return array|mixed|null
+	 */
 	public function findKey($key)
 	{
 		$this->addWhere('regkey', $key);

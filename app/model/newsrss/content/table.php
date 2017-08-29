@@ -3,7 +3,7 @@
 namespace model\newsrss\content;
 
 /**
- * Item Class table
+ * NewsRSS Class table
  * @package model\item\content
  */
 class table extends \finger\model\table {
@@ -62,6 +62,12 @@ class table extends \finger\model\table {
 		return $_return;
 	}
 
+	/**
+	 * Find Type only Active
+	 * @param $typeID
+	 *
+	 * @return array|null
+	 */
 	public function findTypeActive(  $typeID ) {
 		$this->addWhere( 'typeid', $typeID );
 		$this->addWhere( 'status', 1 );
@@ -70,6 +76,10 @@ class table extends \finger\model\table {
 		return $_return;
 	}
 
+	/**
+	 * Get All only Active
+	 * @return array|null
+	 */
 	public function queryActive() {
 		$this->addWhere( 'status', 1 );
 		$_return = $this->query();
@@ -77,6 +87,13 @@ class table extends \finger\model\table {
 		return $_return;
 	}
 
+	/**
+	 * Find via ID
+	 * only ACtive
+	 * @param $id
+	 *
+	 * @return mixed|null
+	 */
 	public function findActive( $id ) {
 		$_return = null;
 		$this->addWhere( 'status', 1 );
