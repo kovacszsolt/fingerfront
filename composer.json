@@ -1,0 +1,23 @@
+{
+	"name": "Zsolt",
+	"description": "",
+	"license": "MIT",
+	"authors": [{
+		"name": "kovacs@greenroom.hu",
+		"email": "kovacs@greenroom.hu"
+	}],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.6.0",
+		"kovacszsolt/finger": "dev-dev",
+        "swiftmailer/swiftmailer": "^5.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"finger\\": "vendor/kovacszsolt/finger",
+			"model\\": "app/model",
+			"config\\": "app/config",
+			"site\\": "site"
+		}
+	}
+}

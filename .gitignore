@@ -1,0 +1,10 @@
+/.idea/
+/composer.lock
+/vendor/
+/_frontend/itcrowd/node_modules/
+package-lock.json
+/storage/itcrowd/newsrss/
+/storage/itcrowd/tmp/
+/app/config/localhost/
+/app/form/localhost/
+/public/site/itcrowd/
