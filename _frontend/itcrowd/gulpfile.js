@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     babili = require("gulp-babili");
 
 
-//First
+//Images
 var images_files =
     ['images/favicon.png',
         'images/logo.png',
@@ -25,10 +25,7 @@ gulp.task('images_task', function () {
         .pipe(gulp.dest(public_images));
 });
 
-
-
-//secund
-
+//CSS
 var css_files =
     [
         'css/theme-base.css',
@@ -44,8 +41,7 @@ gulp.task('css_task', function () {
         .pipe(gulp.dest(public + 'css/'));
 });
 
-
-
+//JS
 var js_files = [
     'js/bootstrap-notify.min.js',
     'node_modules/fingerjqueryvalidation/js/fingerDomain.js',
@@ -53,11 +49,6 @@ var js_files = [
     'js/theme-functions.js',
     'js/custom.js'
 ];
-
-gulp.task('main_js_task', function () {
-    gulp.src(main_js_files)
-        .pipe(gulp.dest(public + 'js/'));
-});
 
 gulp.task('js_task', function () {
     gulp.src(js_files)
@@ -71,4 +62,9 @@ gulp.task('js_task', function () {
             }
         }))
         .pipe(gulp.dest(public + 'js/'));
+});
+
+// run all task
+gulp.task('all_task', function () {
+    gulp.start('css_task','images_task','js_task');
 });

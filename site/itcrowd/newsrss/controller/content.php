@@ -21,5 +21,19 @@ class content extends \site\itcrowd\main {
 		$this->render();
 	}
 
+	public function allJson() {
+		$_return=array();
+		$_newsrssContentTable   = new newsrssContentTable();
+		$_records=$_newsrssContentTable->queryActive();
+		foreach ($_records as $_record) {
+			$_return[]=array(
+			'title'=>$_record->getTitle(),
+			'intro'=>$_record->getIntro(),
+			'type_title'=>$_record->getIntro(),
+			);
+		}
+		echo json_encode($_return);exit;
+	}
+
 
 }
