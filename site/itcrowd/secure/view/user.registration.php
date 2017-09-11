@@ -56,6 +56,7 @@ $newsrsscontentrecords = $this->getvalue( 'newsrsscontentrecords', array() );
                                                placeholder="jelszó mégegyszer" id="password2" aria-required="true">
                                     </div>
                                 </div>
+                                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
                                 <div class="col-md-6">
 		                            <?php if ( $this->settings->get( 'secure.googlecaptcaptchaenabled', 1 ) == 1 ) : ?>
                                         <div class="form-group">

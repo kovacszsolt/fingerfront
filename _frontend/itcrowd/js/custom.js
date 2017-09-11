@@ -1,7 +1,6 @@
 /**
  * Form
  */
-
 class fingerDomainMod extends fingerDomain {
     static convertURL(url) {
         var _return = url;
@@ -25,7 +24,9 @@ class form {
             ['bejelentkezes', 'login'],
             ['adataid', 'profile'],
             ['regisztracio', 'registration'],
-            ['hirbekuldes', 'newsadd']
+            ['hirbekuldes', 'newsadd'],
+            ['hirlevel', 'newslettersubscribe'],
+            ['hirlevellemondas', 'newsletterunsubscribe']
         ]);
     }
 
@@ -53,6 +54,47 @@ class form {
     _showOK() {
         this._form.remove();
         this._formOk.removeClass('hidden');
+    }
+
+
+    newsletterunsubscribe(msg) {
+        switch (msg.result) {
+            case 'error' :
+                switch (msg.message) {
+                    case 'no_email':
+                        $(document).fingerValidator.notify('Ezt az e-mail-t nem találtam a listában!');
+                        $('#email').val('');
+                        break;
+                    default:
+                        $(document).fingerValidator.notify(msg.message);
+                }
+                break;
+            case 'ok':
+                $(document).fingerValidator.notify('Az e-mail címed töröltük a listából.');
+                $('#email').val('');
+                break;
+        }
+        grecaptcha.reset();
+    }
+
+    newslettersubscribe(msg) {
+        switch (msg.result) {
+            case 'error' :
+                switch (msg.message) {
+                    case 'duplicate_email':
+                        $(document).fingerValidator.notify('Ezzel az e-mail címmel már megtörtént a regisztráció!');
+                        $('#email').val('');
+                        break;
+                    default:
+                        $(document).fingerValidator.notify(msg.message);
+                }
+                break;
+            case 'ok':
+                $(document).fingerValidator.notify('Az e-mail címed rögítettük.');
+                $('#email').val('');
+                break;
+        }
+        grecaptcha.reset();
     }
 
     profile(msg) {
@@ -180,19 +222,7 @@ class form {
 
 var myForm = new form();
 
-
 $(document).ready(function () {
-
-    $('.navbar').removeClass('hidden');
-    var timer = 50;
-    $('.item').each(function (index) {
-        var _item = $(this);
-        setTimeout(function () {
-            _item.fadeIn(500).removeClass('hidden');
-        }, timer);
-        timer += 50;
-    });
-    $('.loader').remove();
     if ($.cookie('policy') === undefined) {
         $('#cookiepolicy').removeClass('hidden');
     } else {
@@ -213,7 +243,7 @@ $(document).ready(function () {
             _mainSubmitText = _mainSubmitButton.html();
         }
         if ($(this).data('finger_valid') == '1') {
-            _mainSubmitButton.html('<img style="height:25px" src="/site/itcrowd/images/svg-loaders/ring.svg"/> ' + _mainSubmitText);
+            _mainSubmitButton.html('<img id="form_submit_wait" style="height:25px" src="/site/itcrowd/images/svg-loaders/ring.svg"/> ' + _mainSubmitText);
             _mainSubmitButton.prop('disabled', true);
             myForm.setForm(this);
             $.ajax({
@@ -227,6 +257,7 @@ $(document).ready(function () {
                     _mainSubmitButton.innerHTML = _mainSubmitText;
                     _mainSubmitButton.removeAttr('disabled');
                     myForm[myForm.getMethod()](msg);
+                    $('#form_submit_wait').remove();
                     _mainSubmitButton.html(_mainSubmitText);
                 });
         }

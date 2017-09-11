@@ -1,139 +1,100 @@
+<!DOCTYPE html>
+<html lang="hu">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <link rel="shortcut icon" href="images/favicon.png">
-    <meta name="author" content="IT Crowd">
-    <title>IT CRowd</title>
-
-
-    <!-- Bootstrap Core CSS -->
-    <link href="/site/itcrowd/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/site/itcrowd/vendor/fontawesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="/site/itcrowd/vendor/animateit/animate.min.css" rel="stylesheet">
-
-    <!-- Vendor css -->
-    <link href="/site/itcrowd/vendor/owlcarousel/owl.carousel.css" rel="stylesheet">
-    <link href="/site/itcrowd/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
-
-    <!-- Template base -->
-    <link href="/site/itcrowd/css/theme-base.css" rel="stylesheet">
-
-    <!-- Template elements -->
-    <link href="/site/itcrowd/css/theme-elements.css" rel="stylesheet">
-
-    <!-- Responsive classes -->
-    <link href="/site/itcrowd/css/responsive.css" rel="stylesheet">
-
-    <!--[if lt IE 9]>
-    <script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-    <![endif]-->
-
-
-    <!-- Template color -->
-    <link href="/site/itcrowd/css/color-variations/blue.css" rel="stylesheet" type="text/css" media="screen"
-          title="blue">
-
-    <!-- LOAD GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,800,700,600%7CRaleway:100,300,600,700,800"
+    <link rel="shortcut icon" href="/site/itcrowd/images/favicon.png">
+    <title>IT Crowd . hu 404 error</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
+    <link href="/site/itcrowd/css/style.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,800,700,600%7CRaleway:100,300,600,700,800"
           rel="stylesheet" type="text/css"/>
-
-    <!-- BLOG FONT & STYLE -->
-    <link href="https://fonts.googleapis.com/css?family=Damion" rel="stylesheet" type="text/css">
-    <link href="/site/itcrowd/homepages/blog/css/style-blog.css" media="screen" rel="stylesheet" type="text/css"/>
-
-    <!--VENDOR SCRIPT-->
-    <script src="/site/itcrowd/vendor/jquery/jquery-1.11.2.min.js"></script>
-    <script src="/site/itcrowd/vendor/plugins-compressed.js"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script>
-		(function (i, s, o, g, r, a, m) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function () {
-					(i[r].q = i[r].q || []).push(arguments)
-				}, i[r].l = 1 * new Date();
-			a = s.createElement(o),
-				m = s.getElementsByTagName(o)[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore(a, m)
-		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-		ga('create', 'UA-93414601-2', 'auto');
-		ga('send', 'pageview');
-
-    </script>
+    <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jRespond/1.0.0/js/jRespond.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.stellar/0.6.2/jquery.stellar.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 </head>
 
 
-<body class="wide">
+<body class="wide wide side-panel-static">
+<?php
+/**
+ * Facebook javascript library
+ */
+?>
+<div class="loader-wrapper vertical-align">
+    <div class="loader">
+        <img width="40" src="/site/itcrowd/images/svg-loaders/puff.svg" alt="Loading">
+        <span class="loader-title">Page is loading, just a sec...</span>
+    </div>
+</div>
 
-
-<!-- WRAPPER -->
 <div class="wrapper">
-
-    <!-- HEADER -->
-    <header id="header" class="">
+	<?php
+	/**
+	 * Page left side Menus
+	 */
+	?>
+    <header id="header">
         <div id="header-wrap">
             <div class="container">
-
-                <!--LOGO-->
                 <div id="logo">
-                    <a href="/" class="logo" data-dark-logo="/tempates/itcrowd/images/logo.png"> <img
-                                src="/site/itcrowd/images/logo.png" alt="IT Crowd"> </a>
+                    <h1 class="text-medium"><a href="/">IT Crowd . Hu</a></h1>
+                    <h4>Az Internet Közepe</h4>
                 </div>
-                <!--END: LOGO-->
-                <!--END: LOGO-->
+                <div id="side-panel-button" class="side-panel-button">
+                    <button class="lines-button x" type="button">
+                        <span class="lines"></span>
+                    </button>
+                </div>
+                <div id="side-panel" class="side-panel-dark">
+                    <div class="side-panel-wrap">
+                        <div id="panel-logo" class="m-b-80 text-light">
+                            <h1 class="text-medium"><a href="/">IT Crowd . Hu</a></h1>
+                            <h4>Az Internet Közepe</h4>
+                        </div>
+                        <div class="panel-widget">
+                        </div>
+                        <div class="panel-widget">
+                            <div class="social-icons social-icons-dark">
+                                <ul>
+                                    <li class="social-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="social-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
-    <!-- END: HEADER -->
-
-
-    <!-- 404 PAGE -->
-    <section class="m-t-80 p-b-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="page-error-404">404</div>
-                </div>
-                <div class="col-md-6">
-                    <div class="text-left">
-                        <h1 class="text-medium">Ooops, Bocsika!</h1>
-                        <p class="lead">Ez az oldal nem található.</p>
-                        <p class="lead"><a href="/">Ugrás az elejére.</a></p>
-                        <div class="seperator m-t-20 m-b-20"></div>
+    <section class="background-grey p-10">
+        <div class="isotope" data-isotope-item-space="1" data-isotope-col="12" data-isotope-item=".post-item">
+            <div class="post-item">
+                <div class="post-content-details">
+                    <div class="post-title">
+                        <h2>404 hibácska</h2>
+                    </div>
+                    <div class="post-description">
+                        <p>Hát ez az oldal sajnos nem létezik</p>
                     </div>
                 </div>
+
             </div>
         </div>
-    </section>
-    <!-- END:  404 PAGE -->
-    <footer class="background-dark text-grey" id="footer">
-        <div class="copyright-content">
-            <div class="container">
-                <div class="row">
-                    <div class="copyright-text text-center"> &copy; 2019 IT Crowd
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- END: FOOTER -->
-
 </div>
-<!-- END: WRAPPER -->
-
-<!-- GO TOP BUTTON -->
-<a class="gototop gototop-button" href="#"><i class="fa fa-chevron-up"></i></a>
-
-<!-- Theme Base, Components and Settings -->
-<script src="/site/itcrowd/js/theme-functions.js"></script>
-
-<!-- Custom js file -->
-<script src="/site/itcrowd/js/custom.js"></script>
-
-
+<script src="/site/itcrowd/js/custom.min.js"></script>
 </body>
 </html>
+
