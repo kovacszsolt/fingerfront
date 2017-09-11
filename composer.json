@@ -9,7 +9,7 @@
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=7.1.0",
-		"kovacszsolt/finger": "dev-master",
+		"kovacszsolt/finger": "dev-dev",
 		"kovacszsolt/mailchimp": "dev-master",
 		"swiftmailer/swiftmailer": "^5.4",
 		"facebook/graph-sdk": "dev-master",
