@@ -1,0 +1,30 @@
+{
+	"name": "Zsolt",
+	"description": "",
+	"license": "MIT",
+	"authors": [{
+		"name": "kovacs@greenroom.hu",
+		"email": "kovacs@greenroom.hu"
+	}],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=7.1.0",
+		"kovacszsolt/finger": "dev-master",
+		"kovacszsolt/mailchimp": "dev-master",
+		"swiftmailer/swiftmailer": "^5.4",
+		"facebook/graph-sdk": "dev-master",
+		"google/apiclient": "1.1.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"finger\\": "vendor/kovacszsolt/finger",
+			"mailchimp\\": "vendor/kovacszsolt/mailchimp",
+			"model\\": "app/model",
+			"config\\": "app/config",
+			"site\\": "site"
+		},
+		"psr-0": {
+			"Google": "vendor/google/apiclient/src/Google"
+		}
+	}
+}
