@@ -1,4 +1,8 @@
-<!-- FOOTER -->
+<?php
+/**
+ * Page footer
+ */
+?>
 <footer class="background-dark text-grey" id="footer">
 	<div class="footer-content">
 		<div class="container">
@@ -16,4 +20,3 @@
 		</div>
 	</div>
 </footer>
-<!-- END: FOOTER -->

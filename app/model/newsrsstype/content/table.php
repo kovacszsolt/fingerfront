@@ -2,8 +2,8 @@
 namespace model\newsrsstype\content;
 
 /**
- * Item Class table
- * @package model\item\content
+ * News RSS Type Content Table Class
+ * @package model\newsrsstype\content
  */
 class table extends \finger\model\table {
 
@@ -39,14 +39,26 @@ class table extends \finger\model\table {
 	    'url' => array('type' => 'varchar(200)'),
     );
 
-	public function findTitle($title)
+	/**
+	 * Find by Title
+	 * @param string $title
+	 *
+	 * @return array|null
+	 */
+	public function findTitle(string $title)
 	{
 		$this->addWhere('title', $title);
 		$_return = $this->query();
 		return $_return;
 	}
 
-	public function findUrl($url)
+	/**
+	 * Find by URL
+	 * @param string $url
+	 *
+	 * @return array|null
+	 */
+	public function findUrl(string $url)
 	{
 		$this->addWhere('url', $url);
 		$_return = $this->query();

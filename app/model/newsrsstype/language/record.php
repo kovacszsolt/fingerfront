@@ -2,8 +2,8 @@
 namespace model\newsrsstype\language;
 
 /**
- * Item language Class record
- * @package model\item\language
+ * News RSS Type Language Record Class
+ * @package model\newsrsstype\language
  */
 class record extends \finger\model\languagerecord
 {

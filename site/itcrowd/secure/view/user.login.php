@@ -44,8 +44,16 @@ $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="button green effect icon-left"><span><i class="fa fa-hand-peace-o"></i>Bejelentkezés</span></button>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-success"><span>Bejelentkezés</span></button>
+                                    <a href="<?=$this->getValue('facebook_login'); ?>" class="button blue-dark effect icon-left"><span><i class="fa fa-facebook"></i>Belépés facebook-on keresztül</span></a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="<?=$this->getValue('google_login'); ?>" class="button red effect icon-left"><span><i class="fa fa-google"></i>Belépés google-ön keresztül</span></a>
                                 </div>
                             </div>
 

@@ -2,11 +2,9 @@
 
 namespace model\rss\content;
 
-use \finger\convert as convert;
-
 /**
- * Item record Class record
- * @package model\item\content
+ * RSS Feed Content Record Class
+ * @package model\rss\content
  */
 class record extends \finger\model\record
 {
@@ -16,11 +14,24 @@ class record extends \finger\model\record
 	 */
 	protected $className = __CLASS__;
 
-
+	/**
+	 * Domain name
+	 * @var string
+	 */
 	protected $a_domain;
-	protected $a_url;
-	protected $a_convertutf8;
 
+	/**
+	 * Domain URL
+	 * @var string
+	 */
+	protected $a_url;
+
+	/**
+	 *Convert to UTF8
+	 * 1: yes
+	 * 0: no
+	 * @var integer
+	 */
 	protected $a_utf8;
 
 

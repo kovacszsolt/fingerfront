@@ -3,14 +3,18 @@
 namespace site\itcrowd\root\controller;
 
 use finger\server;
-use finger\storage;
 use model\newsrss\content\table as newsrssContentTable;
 use finger\request as request;
 
-
+/**
+ * Root index pages
+ * @package site\itcrowd\root\controller
+ */
 class index extends \site\itcrowd\main {
 
-
+	/**
+	 * Root page
+	 */
 	public function indexGet() {
 		$_newsrssContentTable   = new newsrssContentTable();
 		$_newsrssContentRecords = $_newsrssContentTable->queryActive();
@@ -18,6 +22,9 @@ class index extends \site\itcrowd\main {
 		$this->render();
 	}
 
+	/**
+	 * RSS feeds
+	 */
 	public function rssGet() {
 
 		$xml      = new \SimpleXMLElement( '<rss version="2.0"/>' );
@@ -48,24 +55,19 @@ class index extends \site\itcrowd\main {
 		exit;
 	}
 
-	public function rssreadGet() {
-		$_xml         = simplexml_load_file( 'https://www.gamestar.hu/site/rss/rss.xml' );
-		$json_string  = json_encode( $_xml );
-		$result_array = json_decode( $json_string, true );
-		print_r( $result_array['channel']['item'] );
-		exit;
-	}
-
-	private function rssreadGamestar( $result_array ) {
-
-	}
-
+	/**
+	 * About page
+	 */
 	public function aboutGet() {
 		$this->render();
 	}
 
+	/**
+	 * user policy page
+	 */
 	public function policyGet() {
 		$this->render();
 	}
+
 
 }

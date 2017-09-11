@@ -2,15 +2,16 @@
     <div class="wrapper">
 	    <?php $this->includeFile( '_view/common/left.php' ); ?>
         <section class="background-grey p-10">
+            <div id="cookiepolicy" role="alert" class="alert alert-success hidden"> <strong>Az oldal sütit használ!</strong> <a href="/adatkezelesi-nyilatkozat/">Az adatkezelési nyilatkozatot itt olvashatod el.</a> <a href="#" id="cookiepolicy_ok" class="btn btn-info btn-xs" >Megértettem.</a> </div>
             <div class="isotope" data-isotope-item-space="1" data-isotope-col="3" data-isotope-item=".post-item">
-				<?php foreach ( $this->getValue( 'newsrssContentRecords' ) as $newsrssContentRecord ) : ?>
-					<?php $newsrssContentImageRecords = $newsrssContentRecord->getImages();
-					$_image                           = '/site/itcrowd/images/default.jpg';
-					if ( ! is_null( $newsrssContentImageRecords ) ) {
-						$newsrssContentImageRecords = $newsrssContentImageRecords[0];
-						$_image                     = '/itcrowd/root/index/read/newsrss/' . $newsrssContentImageRecords->getId() . '.' . $newsrssContentImageRecords->getExtension();
-					}
-					?>
+			    <?php foreach ( $this->getValue( 'newsrssContentRecords' ) as $newsrssContentRecord ) : ?>
+				    <?php $newsrssContentImageRecords = $newsrssContentRecord->getImages();
+				    $_image                           = '/site/itcrowd/images/default.jpg';
+				    if ( ! is_null( $newsrssContentImageRecords ) ) {
+					    $newsrssContentImageRecords = $newsrssContentImageRecords[0];
+					    $_image                     = '/itcrowd/root/index/read/newsrss/thumb/' . $newsrssContentImageRecords->getId() . '.' . $newsrssContentImageRecords->getExtension();
+				    }
+				    ?>
                     <div class="post-item">
                         <div class="post-image">
                             <a href="/<?= $newsrssContentRecord->getUrl() ?>">
@@ -35,8 +36,9 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-				<?php endforeach; ?>
+			    <?php endforeach; ?>
             </div>
         </section>
 	    <?php $this->includeFile( '_view/common/footer.php' ); ?>

@@ -3,8 +3,8 @@
 namespace model\newsrss\content;
 
 /**
- * NewsRSS Class table
- * @package model\item\content
+ * News RSS Content Table Class
+ * @package model\newsrss\content
  */
 class table extends \finger\model\table {
 
@@ -35,15 +35,19 @@ class table extends \finger\model\table {
 	 * @var array
 	 */
 	public $fields = array(
-		'typeid' => array( 'type' => 'int(10)' ),
-		'link'   => array( 'type' => 'varchar(200)' ),
-		'title'  => array( 'type' => 'varchar(200)' ),
-		'intro'  => array( 'type' => 'longtext' ),
-		'urlid'  => array( 'type' => 'int(10)' ),
-		'url'    => array( 'type' => 'varchar(200)' ),
-		'status' => array( 'type' => 'integer(10)' ),
+		'typeid'      => array( 'type' => 'int(10)' ),
+		'link'        => array( 'type' => 'varchar(200)' ),
+		'title'       => array( 'type' => 'varchar(200)' ),
+		'intro'       => array( 'type' => 'longtext' ),
+		'urlid'       => array( 'type' => 'int(10)' ),
+		'url'         => array( 'type' => 'varchar(200)' ),
+		'status'      => array( 'type' => 'integer(10)' ),
+		'frontuserid' => array( 'type' => 'integer(10)' ),
 	);
 
+	/**
+	 * Join table
+	 */
 	public function joins() {
 		$this->addJoin( 'newsrsstype', 'id', 'typeid' );
 	}
@@ -55,7 +59,7 @@ class table extends \finger\model\table {
 	 *
 	 * @return array|mixed|null
 	 */
-	public function findType( number $typeID ) {
+	public function findType( int $typeID ) {
 		$this->addWhere( 'typeid', $typeID );
 		$_return = $this->query();
 
@@ -63,12 +67,13 @@ class table extends \finger\model\table {
 	}
 
 	/**
-	 * Find Type only Active
-	 * @param $typeID
+	 * Find from type only active items
+	 *
+	 * @param int $typeID
 	 *
 	 * @return array|null
 	 */
-	public function findTypeActive(  $typeID ) {
+	public function findTypeActive( int $typeID ) {
 		$this->addWhere( 'typeid', $typeID );
 		$this->addWhere( 'status', 1 );
 		$_return = $this->query();
@@ -77,7 +82,7 @@ class table extends \finger\model\table {
 	}
 
 	/**
-	 * Get All only Active
+	 * Get all active items
 	 * @return array|null
 	 */
 	public function queryActive() {
@@ -88,13 +93,13 @@ class table extends \finger\model\table {
 	}
 
 	/**
-	 * Find via ID
-	 * only ACtive
-	 * @param $id
+	 * Get from id, only active
+	 *
+	 * @param int $id
 	 *
 	 * @return mixed|null
 	 */
-	public function findActive( $id ) {
+	public function findActive( int $id ) {
 		$_return = null;
 		$this->addWhere( 'status', 1 );
 		$_records = $this->query();
@@ -127,31 +132,36 @@ class table extends \finger\model\table {
 	 * Add URL to database
 	 *
 	 * @param string $url
-	 * @param number $type
+	 * @param int $type
+	 * @param int $frontuserid
 	 *
 	 * @return bool
 	 */
-	public function addUrl( $url, $type ) {
+	public function addUrl( string $url, int $type, int $frontuserid ) {
 		$_return           = false;
 		$_domain           = \finger\parser\url::getDomain( $url );
 		$_rssContentTable  = new \model\rss\content\table();
 		$_rssContentRecord = $_rssContentTable->findDomain( $_domain );
+		// find domain in RSS table
 		if ( is_null( $_rssContentRecord ) ) {
 			$newsrssContentTable  = new $this();
 			$newsrssContentRecord = new \model\newsrss\content\record();
 			$newsrssContentRecord->setTypeid( $type );
 			$newsrssContentRecord->setLink( $url );
+			$newsrssContentRecord->setFrontuserid( $frontuserid );
 			$newsrssContentRecord->setStatus( - 1 );
 			$_id = $newsrssContentTable->add( $newsrssContentRecord );
 		} else {
+			// read OG tags from URL
 			$_pageData            = \finger\parser\html::getFacebookData( $url, $_rssContentRecord->getUtf8() );
 			$_urlSEO              = \finger\routing::createSEOUrl( $_pageData['title'] );
 			$newsrssContentTable  = new $this();
 			$newsrssContentRecord = new \model\newsrss\content\record();
 			$newsrssContentRecord = $this->addUrlCreateRecord( $newsrssContentRecord, $_pageData, $type, $_urlSEO, $url );
-			$_id                  = $newsrssContentTable->add( $newsrssContentRecord );
-			$newsrssContentRecord = new \model\newsrss\content\record();
+			$newsrssContentRecord->setFrontuserid( $frontuserid );
+			$_id = $newsrssContentTable->add( $newsrssContentRecord );
 			$this->addUrlLanguage( $_id, $_pageData, $_urlSEO );
+			// add Thumb Image from OG tag
 			if ( $_pageData['image'] != '' ) {
 				$this->addUrlImage( $_id, $_pageData );
 			}
@@ -162,7 +172,14 @@ class table extends \finger\model\table {
 		return $_return;
 	}
 
-	public function updateUrl( $id ) {
+	/**
+	 * Update record from URL
+	 *
+	 * @param int $id
+	 *
+	 * @return bool
+	 */
+	public function updateUrl( int $id ) {
 		$_return           = false;
 		$_record           = $this->find( $id );
 		$_url              = $_record->getLink();
@@ -177,7 +194,6 @@ class table extends \finger\model\table {
 			$newsrssContentRecord = new \model\newsrss\content\record();
 			$_record              = $this->addUrlCreateRecord( $_record, $_pageData, $_type, $_urlSEO, $_url );
 			$newsrssContentTable->update( $_record );
-			$newsrssContentRecord = new \model\newsrss\content\record();
 			$this->addUrlLanguage( $id, $_pageData, $_urlSEO );
 
 			if ( $_pageData['image'] != '' ) {
@@ -189,7 +205,17 @@ class table extends \finger\model\table {
 		return $_return;
 	}
 
-	private function addUrlCreateRecord( $newsrssContentRecord, $_pageData, $type, $_urlSEO, $url ) {
+
+	/**
+	 * @param $newsrssContentRecord
+	 * @param $_pageData
+	 * @param int $type
+	 * @param string $_urlSEO
+	 * @param string $url
+	 *
+	 * @return mixed
+	 */
+	private function addUrlCreateRecord( $newsrssContentRecord, $_pageData, int $type, string $_urlSEO, string $url ) {
 		$newsrssContentRecord->setTitle( $_pageData['title'] );
 		$newsrssContentRecord->setTypeid( $type );
 		$newsrssContentRecord->setIntro( $_pageData['title'] );
@@ -200,7 +226,7 @@ class table extends \finger\model\table {
 		return $newsrssContentRecord;
 	}
 
-	private function addUrlLanguage( $_id, $_pageData, $_urlSEO ) {
+	private function addUrlLanguage( int $_id, $_pageData, string $_urlSEO ) {
 		$newsrssLanguageTable  = new \model\newsrss\language\table();
 		$_inorder              = $newsrssLanguageTable->maxInorder() + 1;
 		$newsrssLanguageRecord = new \model\newsrss\language\record();
@@ -215,7 +241,15 @@ class table extends \finger\model\table {
 		return $_languageID;
 	}
 
-	private function addUrlImage( $_id, $_pageData ) {
+	/**
+	 * Add image from OG tags
+	 *
+	 * @param int $_id
+	 * @param $_pageData
+	 *
+	 * @return int|string|void
+	 */
+	private function addUrlImage( int $_id, $_pageData ) {
 		$newsrssImageTable  = new \model\newsrss\image\table();
 		$newsrssImageRecord = new \model\newsrss\image\record();
 		$newsrssImageRecord->setRootid( $_id );

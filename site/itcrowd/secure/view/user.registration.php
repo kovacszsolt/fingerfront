@@ -10,7 +10,7 @@ $newsrsscontentrecords = $this->getvalue( 'newsrsscontentrecords', array() );
             <div class="post-item">
                 <div class="post-content-details">
                     <div class="post-title">
-                        <h2>bejelentkezés</h2>
+                        <h2>Regisztráció</h2>
                     </div>
                     <div class="post-description">
                         <form id="registration_form" data-valid="0" class="user_form" method="post"
@@ -56,7 +56,6 @@ $newsrsscontentrecords = $this->getvalue( 'newsrsscontentrecords', array() );
                                                placeholder="jelszó mégegyszer" id="password2" aria-required="true">
                                     </div>
                                 </div>
-                                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
                                 <div class="col-md-6">
 		                            <?php if ( $this->settings->get( 'secure.googlecaptcaptchaenabled', 1 ) == 1 ) : ?>
                                         <div class="form-group">
@@ -65,10 +64,19 @@ $newsrsscontentrecords = $this->getvalue( 'newsrsscontentrecords', array() );
                                         </div>
 		                            <?php endif; ?>
                                 </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="button green effect icon-left"><span><i class="fa fa-save"></i>regisztráció</span></button>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="button"><span>regisztráció</span></button>
+                                    <a href="<?=$this->getValue('facebook_login'); ?>" class="button blue-dark effect icon-left"><span><i class="fa fa-facebook"></i>Regisztráció facebook-on keresztül</span></a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="<?=$this->getValue('google_login'); ?>" class="button red effect icon-left"><span><i class="fa fa-google"></i>Regisztráció google-ön keresztül</span></a>
                                 </div>
                             </div>
 

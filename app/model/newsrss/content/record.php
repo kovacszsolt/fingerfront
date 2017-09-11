@@ -3,10 +3,11 @@
 namespace model\newsrss\content;
 
 /**
- * NewsRSS record Class record
- * @package model\item\content
+ * News RSS Content Record Class
+ * @package model\newsrss\content
  */
 class record extends \finger\model\record {
+
 	/**
 	 * this Class
 	 * @var string
@@ -14,8 +15,8 @@ class record extends \finger\model\record {
 	protected $className = __CLASS__;
 
 	/**
-	 * Feautured
-	 * @var int
+	 * Type ID
+	 * @var integer
 	 */
 	protected $a_typeid;
 
@@ -31,16 +32,54 @@ class record extends \finger\model\record {
 	 */
 	protected $a_intro;
 
+	/**
+	 * News Link
+	 * @var string
+	 */
 	protected $a_link;
+
+	/**
+	 * SEO URL
+	 * @var string
+	 */
 	protected $a_url;
+
+	/**
+	 * Status
+	 * @var integer
+	 */
 	protected $a_status;
 
+	/**
+	 * SEO URL Id
+	 * @var integer
+	 */
 	protected $a_urlid;
 
+	/**
+	 * Saved user id
+	 * @var integer
+	 */
+	protected $a_frontuserid;
+
+	/**
+	 * Type Title
+	 * @var string
+	 */
 	private $b_title;
+
 	private $b_intro;
+
+	/**
+	 * Type SEO URL
+	 * @var string
+	 */
 	private $b_url;
 
+	/**
+	 * Status Id Titles
+	 * @var array
+	 */
 	public $_statusTitle = array(
 		- 1 => 'Feldolgozásra vár',
 		0   => 'Inaktív',
@@ -49,35 +88,35 @@ class record extends \finger\model\record {
 
 	/**
 	 * Get Type Title
-	 * @return mixed
+	 * @return string
 	 */
-	public function getTypeTitle() {
+	public function getTypeTitle(): string {
 		return $this->b_title;
 	}
 
 	/**
 	 * Get Type URL
-	 * @return mixed
+	 * @return string
 	 */
-	public function getTypeUrl() {
+	public function getTypeUrl(): string {
 		return $this->b_url;
 	}
 
 	/**
-	 * Get Status Title
-	 * @return mixed
+	 * Get Status Title from array
+	 * @return string
 	 */
-	public function getStatusTitle() {
+	public function getStatusTitle(): string {
 		$_return = $this->_statusTitle[ $this->getStatus() ];
 
 		return $_return;
 	}
 
 	/**
-	 * Get news rss image
+	 * Get Thumb Image
 	 * @return string
 	 */
-	public function getImage() {
+	public function getImage(): string {
 		$_return = '';
 		$_images = $this->getImages();
 		if ( is_array( $_images ) ) {

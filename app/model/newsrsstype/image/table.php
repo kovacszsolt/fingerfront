@@ -2,8 +2,8 @@
 namespace model\newsrsstype\image;
 
 /**
- * Item image Class table
- * @package model\item\image
+ * ews RSS Type Image Table Class
+ * @package model\newsrsstype\image
  */
 class table extends \finger\model\image
 {

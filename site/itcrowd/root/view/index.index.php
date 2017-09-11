@@ -2,7 +2,24 @@
 <div class="wrapper">
 	<?php $this->includeFile( '_view/common/left.php' ); ?>
     <section class="background-grey p-10">
-        <div id="cookiepolicy" role="alert" class="alert alert-success hidden"> <strong>Az oldal sütit használ!</strong> <a href="/adatkezelesi-nyilatkozat/">Az adatkezelési nyilatkozatot itt olvashatod el.</a> <a href="#" id="cookiepolicy_ok" class="btn btn-info btn-xs" >Megértettem.</a> </div>
+        <div id="cookiepolicy" role="alert" class="alert alert-success hidden"><strong>Az oldal sütit használ!</strong>
+            <a href="/adatkezelesi-nyilatkozat/">Az adatkezelési nyilatkozatot itt olvashatod el.</a> <a href="#"
+                                                                                                         id="cookiepolicy_ok"
+                                                                                                         class="btn btn-info btn-xs">Megértettem.</a>
+        </div>
+        <div role="alert" class="alert alert-info ">
+            <form>
+                <div class="row">
+                    <div class="col-md-10">
+                        <input aria-required="true" class=" form-control required email" id="newsletter_email" placeholder="Add meg az e-mail címed, hogy ne maradj le semmiről:"
+                               name="newsletter_email" type="email"/></div>
+                    <div class="col-md-2">
+                        <input class="btn btn-success" type="submit" value="Kérek"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="isotope" data-isotope-item-space="1" data-isotope-col="3" data-isotope-item=".post-item">
 			<?php foreach ( $this->getValue( 'newsrssContentRecords' ) as $newsrssContentRecord ) : ?>
 				<?php $newsrssContentImageRecords = $newsrssContentRecord->getImages();
@@ -25,7 +42,8 @@
                             </h3>
                         </div>
                         <div class="post-info">
-                            <span class="post-autor"><a href="<?= $newsrssContentRecord->getTypeUrl(); ?>"><?= $newsrssContentRecord->getTypeTitle() ?></a></span>
+                            <span class="post-autor"><a
+                                        href="<?= $newsrssContentRecord->getTypeUrl(); ?>"><?= $newsrssContentRecord->getTypeTitle() ?></a></span>
                         </div>
                         <div class="post-description">
                             <p><?= $newsrssContentRecord->getIntro(); ?></p>

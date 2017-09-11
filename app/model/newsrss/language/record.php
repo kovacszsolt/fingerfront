@@ -2,8 +2,8 @@
 namespace model\newsrss\language;
 
 /**
- * Item language Class record
- * @package model\item\language
+ * News RSS Language Record Class
+ * @package model\newsrss\language
  */
 class record extends \finger\model\languagerecord
 {
@@ -23,8 +23,17 @@ class record extends \finger\model\languagerecord
      * @var string
      */
     protected $a_intro;
+
+	/**
+	 * SEO URL
+	 * @var string
+	 */
 	protected $a_url;
 
+	/**
+	 * SEO URL id
+	 * @var integer
+	 */
 	protected $a_urlid;
 
 }

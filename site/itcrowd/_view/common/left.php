@@ -1,3 +1,8 @@
+<?php
+/**
+ * Page left side Menus
+ */
+?>
 <header id="header">
 	<div id="header-wrap">
 		<div class="container">
@@ -21,6 +26,7 @@
 									<a class="text-light navbar-link"
 									   href="/<?= $_newsrsstypeContentRecord->getUrl(); ?>"><?= $_newsrsstypeContentRecord->getTitle(); ?></a></li>
 							<?php endforeach; ?>
+                            <li class=""><a href="/hirlevel/">Hírlevél</a>
                             <li>
                                 <a class="text-light navbar-link"
                                    href="/az-oldalrol/">Az oldalról</a></li>

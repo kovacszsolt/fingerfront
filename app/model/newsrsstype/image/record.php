@@ -2,8 +2,8 @@
 namespace model\newsrsstype\image;
 
 /**
- * Image image Class record
- * @package model\item\image
+ * News RSS Type Image Record Class
+ * @package model\newsrsstype\image
  */
 class record extends \finger\model\imagerecord {
 

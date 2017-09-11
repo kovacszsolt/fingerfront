@@ -6,12 +6,17 @@ use model\frontusers\content\table as frontusersContentTable;
 use model\frontusers\content\record as frontusersContentRecord;
 use finger\request as request;
 use finger\mail\mail as mail;
-use \model\newsrsstype\content\table as contentTypeTable;
-use site\admin\main\view;
+use finger\session as session;
 
-
+/**
+ * User functions
+ * @package site\itcrowd\secure\controller
+ */
 class user extends \site\itcrowd\secure\main {
 
+	/**
+	 * Lost password page
+	 */
 	public function lostpasswordconfirmGet() {
 		$_key   = request::getParam( 0 );
 		$_error = true;
@@ -21,6 +26,10 @@ class user extends \site\itcrowd\secure\main {
 		$this->render();
 	}
 
+	/**
+	 * Lost password form process
+	 * AJAX call
+	 */
 	public function lostpasswordconfirmPost() {
 		$_result = array(
 			'result'  => 'error',
@@ -28,22 +37,26 @@ class user extends \site\itcrowd\secure\main {
 		);
 		$_key    = request::getParam( 0 );
 		$_error  = true;
+		// check the key
 		if ( $_key != '' ) {
-			$frontusersContentTable   = new frontusersContentTable();
+			$frontusersContentTable = new frontusersContentTable();
+			// find user with key
 			$_frontusersContentRecord = $frontusersContentTable->findKey( $_key );
 			if ( $_frontusersContentRecord instanceof frontusersContentRecord ) {
+				// check e-mail address
 				if ( request::get( 'email', '' ) == $_frontusersContentRecord->getEmail() ) {
 					$_frontusersContentRecord->setPassword( request::get( 'newpassword' ) );
 					$_frontusersContentRecord->setRegkey( '' );
 					$frontusersContentTable->update( $_frontusersContentRecord );
 					$_result['result'] = 'ok';
-					$this->session->flash( 'message', 'A jelszavadat frissítettük.' );
+					session::flash( 'message', 'A jelszavadat frissítettük.' );
 				}
 			}
 		}
 		$this->view->renderJSON( $_result );
 		die();
 	}
+
 
 	public function subscribeconfirmGet() {
 		$_key   = request::getParam( 0 );
@@ -55,56 +68,50 @@ class user extends \site\itcrowd\secure\main {
 				$_frontusersContentRecord->setRegkey( '' );
 				$_frontusersContentRecord->setStatus( 1 );
 				$frontusersContentTable->update( $_frontusersContentRecord );
-				$this->session->flash( 'message', 'A regisztrációdat sikeresen megerősítetted.' );
-				header( 'Location: /' );
-				die;
+				session::flash( 'message', 'A regisztrációdat sikeresen megerősítetted.' );
+				request::redirect( '/' );
 			}
 		}
-		header( 'Location: /' );
-		die;
+		request::redirect( '/' );
 	}
 
+	/**
+	 * Login page
+	 */
 	public function loginGet() {
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( 'http://localhost/itcrowd/secure/user/registrationgoogle/' ) );
+		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/loginfacebook/' ) );
 		$this->render();
 	}
 
-	public function indexPost() {
-
-		$_config_secure = $this->settings['secure']['googlecaptcaptchasecret'];
-		$secret         = $this->settings['secure']['googlecaptcaptchasecret'];
-		$verifyResponse = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $_POST['g-recaptcha-response'] );
-		$responseData   = json_decode( $verifyResponse );
-		if ( $responseData->success ) {
-
-		} else {
-			header( 'Location: /login/' );
-			exit;
-		}
-		$frontusersContentTable  = new frontusersContentTable();
-		$frontusersContentRecord = $frontusersContentTable->login( request::get( 'email' ), request::get( 'password' ) );
-		if ( is_null( $frontusersContentRecord ) ) {
-			header( 'Location: /itcrowd/secure/login/index/' );
-			die();
-		}
-		$this->session->setValue( 'userFront', $frontusersContentRecord );
-		header( 'Location: /itcrowd/secure/upload/index/' );
-		die();
-	}
-
+	/**
+	 * Registration Page
+	 */
 	public function registrationGet() {
+		// delete facebook from session
+		$this->_facebookClass->logout();
+		session::remove( 'googlesession' );
+		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/registrationfacebook/' ) );
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( 'http://localhost/itcrowd/secure/user/registrationgoogle/' ) );
 		$this->render();
 	}
 
 
+	/**
+	 * Registration page process
+	 * AJAX Call
+	 */
 	public function registrationPost() {
 		$_result = array(
 			'result'  => 'error',
 			'message' => ''
 		);
+		// form validation
 		$this->_form->init( 'user.registration' );
 		if ( $this->_form->check() ) {
 			$frontusersContentTable  = new frontusersContentTable();
 			$frontusersContentRecord = $frontusersContentTable->findEmail( request::get( 'email' ) );
+			// check email address if exits
 			if ( ! is_null( $frontusersContentRecord ) ) {
 				$_result['message'] = 'duplicate_email';
 			} else {
@@ -115,6 +122,7 @@ class user extends \site\itcrowd\secure\main {
 				$frontusersContentRecord->setStatus( 0 );
 				$frontusersContentRecord->createKey();
 				$frontusersContentTable->add( $frontusersContentRecord );
+				// send comfirmation e-mail
 				$this->_sendConfirm( $frontusersContentRecord );
 				$_result['result'] = 'ok';
 			}
@@ -125,6 +133,11 @@ class user extends \site\itcrowd\secure\main {
 		die();
 	}
 
+	/**
+	 * Send confirmation e-mail
+	 *
+	 * @param $record
+	 */
 	private function _sendConfirm( $record ) {
 		$_htmlView = new \finger\view\render();
 		$_htmlView->addValue( 'record', $record );
@@ -137,6 +150,11 @@ class user extends \site\itcrowd\secure\main {
 		$_mail->send();
 	}
 
+	/**
+	 * Send lostpassword e-mail
+	 *
+	 * @param $record
+	 */
 	private function _sendLostPassword( $record ) {
 		$_htmlView = new \finger\view\render();
 		$_htmlView->addValue( 'record', $record );
@@ -149,12 +167,16 @@ class user extends \site\itcrowd\secure\main {
 		$_mail->send();
 	}
 
-
+	/**
+	 * Login page process
+	 * AJAX Call
+	 */
 	public function loginPost() {
 		$_result = array(
 			'result'  => 'error',
 			'message' => ''
 		);
+		// form validation
 		$this->_form->init( 'user.login' );
 		if ( $this->_form->check() ) {
 			$frontusersContentTable  = new frontusersContentTable();
@@ -162,8 +184,8 @@ class user extends \site\itcrowd\secure\main {
 			if ( is_null( $frontusersContentRecord ) ) {
 				$_result['message'] = 'nouser';
 			} else {
-				$this->session->setValue( 'frontuser', $frontusersContentRecord );
-				$this->session->flash( 'message', 'Sikeresen belépés.' );
+				session::set( 'frontuser', $frontusersContentRecord );
+				session::flash( 'message', 'Sikeresen belépés.' );
 				$_result['result'] = 'ok';
 			}
 		} else {
@@ -172,27 +194,35 @@ class user extends \site\itcrowd\secure\main {
 		$this->view->renderJSON( $_result );
 	}
 
-
+	/**
+	 * User profile Page
+	 */
 	public function profileGet() {
 		$this->render();
 	}
 
+	/**
+	 * Lost password page
+	 */
 	public function lostpasswordGet() {
 		$this->render();
 	}
 
+	/**
+	 * Process lost passsword page
+	 * AJAX Call
+	 */
 	public function lostpasswordPost() {
 		$_result = array(
 			'result'  => 'error',
 			'message' => ''
 		);
+		// form validation
 		$this->_form->init( 'user.lostpassword' );
 		if ( $this->_form->check() ) {
 			$frontusersContentTable  = new frontusersContentTable();
 			$frontusersContentRecord = $frontusersContentTable->findEmail( request::get( 'email', '' ) );
 			if ( $frontusersContentRecord instanceof frontusersContentRecord ) {
-
-
 				$_key = $frontusersContentRecord->createKey();
 				$frontusersContentTable->update( $frontusersContentRecord );
 
@@ -207,6 +237,10 @@ class user extends \site\itcrowd\secure\main {
 		die();
 	}
 
+	/**
+	 * Profile Page process
+	 * AJAX Call
+	 */
 	public function profilePost() {
 		$_result                 = array(
 			'result'  => 'error',
@@ -219,22 +253,29 @@ class user extends \site\itcrowd\secure\main {
 			$frontusersContentRecord->setPassword( request::get( 'password' ) );
 		}
 		$frontusersContentTable->update( $frontusersContentRecord );
-		$this->session->setValue( 'frontuser', $frontusersContentRecord );
+		session::set( 'frontuser', $frontusersContentRecord );
 		$_result['result'] = 'ok';
 		$this->view->renderJSON( $_result );
 		die();
 	}
 
+	/**
+	 * User logout
+	 */
 	public function logoutGet() {
-		$this->session->remove( 'frontuser' );
-		$this->session->flash( 'message', 'Sikeres kilépés.' );
-		header( 'Location: /' );
-		die();
+		$this->_facebookClass->logout();
+		$this->_googleClass->logout();
+		session::remove( 'frontuser' );
+		session::flash( 'message', 'Sikeres kilépés.' );
+		request::redirect( '/' );
 	}
 
 
+	/**
+	 * Registration step 2
+	 */
 	public function subscribeconfirmstep2Get() {
-		$_key   = $this->session->getValue( 'flash.newpassword_key', '' );
+		$_key   = session::get( 'flash.newpassword_key', '' );
 		$_error = true;
 		if ( $_key != '' ) {
 			$frontusersContentTable   = new frontusersContentTable();
@@ -247,6 +288,10 @@ class user extends \site\itcrowd\secure\main {
 		$this->render();
 	}
 
+	/**
+	 * Registration confirm page process
+	 * AJAX Call
+	 */
 	public function subscribeconfirmstep2Post() {
 		$_result = array(
 			'result'  => 'error',
@@ -254,7 +299,7 @@ class user extends \site\itcrowd\secure\main {
 		);
 		$this->_form->init( 'user.subscribeconfirmstep2' );
 		if ( $this->_form->check() ) {
-			$_key = $this->session->getValue( 'flash.newpassword_key', '' );
+			$_key = session::get( 'flash.newpassword_key', '' );
 			if ( $_key != '' ) {
 				$frontusersContentTable   = new frontusersContentTable();
 				$_frontusersContentRecord = $frontusersContentTable->findKey( $_key );
@@ -277,5 +322,116 @@ class user extends \site\itcrowd\secure\main {
 			\finger\log::save( 'form_valid_error' );
 		}
 		$this->view->renderJSON( $_result );
+	}
+
+	/**
+	 * Google Registration
+	 */
+	public function registrationgoogleGet() {
+
+		if ( request::get( 'code', '' ) != '' ) {
+			$this->_googleClass->setRedirectUri( 'http://localhost/itcrowd/secure/user/registrationgoogle/' );
+			$_token = $this->_googleClass->getToken();
+			session::set( 'googlesession', $_token );
+			request::redirect( '/itcrowd/secure/user/registrationgoogle/' );
+		} elseif ( session::get( 'googlesession', '' ) != '' ) {
+			$_attributes = $this->_googleClass->getAttributes();
+			$_userTable  = new \model\frontusers\content\table();
+			$_userRecord = $_userTable->findEmail( $_attributes['email'] );
+			if ( is_null( $_userRecord ) ) {
+				$_userRecord = new \model\frontusers\content\record();
+				$_userRecord->setTitle( substr( $_attributes['email'], 0, strpos( '@', $_attributes['email'] ) ) );
+				$_userRecord->setEmail( $_attributes['email'] );
+				$_userRecord->setPassword( \finger\random::char( 12 ) );
+				$_userRecord->setStatus( 1 );
+				$_userId           = $_userTable->add( $_userRecord );
+				$_userSocialRecord = new \model\frontusers\social\record();
+				$_userSocialRecord->setUserid( $_userId );
+				$_userSocialRecord->setType( 'google' );
+				$_userSocialRecord->setSocialid( $_attributes['aud'] );
+				$_userSocialTable = new \model\frontusers\social\table();
+				$_userSocialTable->add( $_userSocialRecord );
+				$_userRecord = $_userTable->find( $_userId );
+
+			} else {
+				$_userId           = $_userRecord->getId();
+				$_userSocialTable  = new \model\frontusers\social\table();
+				$_userSocialRecord = $_userSocialTable->findUserFacebookId( $_userId );
+				if ( is_null( $_userSocialRecord ) ) {
+					$_userSocialRecord = new \model\frontusers\social\record();
+					$_userSocialRecord->setUserid( $_userId );
+					$_userSocialRecord->setType( 'google' );
+					$_userSocialRecord->setSocialid( $_attributes['aud'] );
+					$_userSocialTable = new \model\frontusers\social\table();
+					$_userSocialTable->add( $_userSocialRecord );
+				} elseif ( $_userSocialRecord->getSocialid() != $_attributes['aud'] ) {
+					$_userSocialRecord->setSocialid( $_attributes['aud'] );
+					$_userSocialTable->update( $_userSocialRecord );
+				}
+			}
+			session::set( 'frontuser', $_userRecord );
+			session::flash( 'message', 'Sikeresen regisztráció.' );
+			request::redirect( '/hirbekuldes/' );
+		}
+		exit;
+	}
+
+	/**
+	 * Facebook registration
+	 */
+	public function registrationfacebookGet() {
+		$_me = $this->_facebookClass->getMe();
+		if ( is_null( $_me ) ) {
+			session::flash( 'message', 'Nem sikerült a facebook azonosítás.' );
+			request::redirect( '/hirbekuldes/' );
+		}
+		$_userTable  = new \model\frontusers\content\table();
+		$_userRecord = $_userTable->findEmail( $_me['email'] );
+		if ( is_null( $_userRecord ) ) {
+			$_userRecord = new \model\frontusers\content\record();
+			$_userRecord->setTitle( $_me['name'] );
+			$_userRecord->setEmail( $_me['email'] );
+			$_userRecord->setPassword( \finger\random::char( 12 ) );
+			$_userRecord->setStatus( 1 );
+			$_userId           = $_userTable->add( $_userRecord );
+			$_userSocialRecord = new \model\frontusers\social\record();
+			$_userSocialRecord->setUserid( $_userId );
+			$_userSocialRecord->setType( 'facebook' );
+			$_userSocialRecord->setSocialid( $_me['id'] );
+			$_userSocialTable = new \model\frontusers\social\table();
+			$_userSocialTable->add( $_userSocialRecord );
+			$_userRecord = $_userTable->find( $_userId );
+			session::set( 'frontuser', $_userRecord );
+			session::flash( 'message', 'Sikeresen regisztráció.' );
+			request::redirect( '/hirbekuldes/' );
+
+		} else {
+			$_userId           = $_userRecord->getId();
+			$_userSocialTable  = new \model\frontusers\social\table();
+			$_userSocialRecord = $_userSocialTable->findUserFacebookId( $_userId );
+			if ( $_userSocialRecord->getSocialid() != $_me['id'] ) {
+				$_userSocialRecord->setSocialid( $_me['id'] );
+				$_userSocialTable->update( $_userSocialRecord );
+			}
+		}
+		echo 'ok';
+		exit;
+
+	}
+
+	/**
+	 * Facebook Login
+	 */
+	public function loginfacebookGet() {
+		$_me               = $this->_facebookClass->getMe();
+		$_userSocialTable  = new \model\frontusers\social\table();
+		$_userSocialRecord = $_userSocialTable->findFacebookId( $_me['id'] );
+		if ( ! is_null( $_userSocialRecord ) ) {
+			$frontusersContentTable  = new frontusersContentTable();
+			$frontusersContentRecord = $frontusersContentTable->find( $_userSocialRecord->getUserid() );
+			session::set( 'frontuser', $frontusersContentRecord );
+			session::flash( 'message', 'Sikeresen belépés.' );
+			request::redirect( '/' );
+		}
 	}
 }

@@ -1,11 +1,9 @@
 <?php
 namespace model\newsrsstype\language;
 
-use \model\web\url\table as urlTable;
-use \model\web\url\record as urlRecord;
 /**
- * Item language Class table
- * @package model\item\language
+ * News RSS Type Language Table Class
+ * @package model\newsrsstype\language
  */
 class table extends \finger\model\language
 {

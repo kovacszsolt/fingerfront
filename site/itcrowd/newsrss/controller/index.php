@@ -3,10 +3,12 @@ namespace site\itcrowd\newsrss\controller;
 
 use finger\request as request;
 
-
+/**
+ * Content page
+ * @package site\itcrowd\newsrss\controller
+ */
 class index extends \finger\controller\front
 {
-
 
     public function indexGet()
     {
@@ -22,7 +24,6 @@ class index extends \finger\controller\front
 
     public function allimagesGet()
     {
-        $this->session->setValue('returnURL', request::currentURL());
         $_facebookuserImageTable = new facebookuserImageTable();
         $_facebookuserImageTable->order = 'id DESC';
         $_facebookuserImageRecords = $_facebookuserImageTable->query();

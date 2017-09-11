@@ -1,10 +1,18 @@
 <?php
 
 namespace model\system;
-use \finger\storage as Storage;
+
+/**
+ * System Table Class
+ * @package model\system
+ */
 class tables extends \finger\database\mysql
 {
 
+	/**
+	 * Get all tables form database
+	 * @return array
+	 */
     private function getTables()
     {
         $_prepare = $this->prepare('SHOW TABLES');
@@ -13,8 +21,13 @@ class tables extends \finger\database\mysql
         return $_tables;
     }
 
-
-    public function findTable($tableName)
+	/**
+	 * Check table in current Database
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+    public function findTable(string $tableName)
     {
         $_return = false;
         if (in_array($tableName, $this->getTables())) {

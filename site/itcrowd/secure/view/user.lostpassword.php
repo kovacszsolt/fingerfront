@@ -33,7 +33,7 @@ $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-success"><span>Bejelentkezés</span></button>
+                                    <button type="submit" class="button green effect icon-left"><span><i class="fa fa-key"></i>Emlékezető elküldése</span></button>
                                 </div>
                             </div>
                         </form>

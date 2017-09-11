@@ -2,8 +2,8 @@
 namespace model\newsrss\language;
 
 /**
- * Item language Class table
- * @package model\item\language
+ * News RSS Language Table Class
+ * @package model\newsrss\language
  */
 class table extends \finger\model\language
 {

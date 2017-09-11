@@ -6,5 +6,7 @@ package-lock.json
 /storage/itcrowd/newsrss/
 /storage/itcrowd/tmp/
 /app/config/localhost/
+/app/config/localhost_81/
 /app/form/localhost/
+/app/form/localhost_81/
 /public/site/itcrowd/

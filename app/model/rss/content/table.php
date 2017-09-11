@@ -3,8 +3,8 @@
 namespace model\rss\content;
 
 /**
- * Item Class table
- * @package model\item\content
+ * RSS Feed Content Table Class
+ * @package model\rss\content
  */
 class table extends \finger\model\table
 {

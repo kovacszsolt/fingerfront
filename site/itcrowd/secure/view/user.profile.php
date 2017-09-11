@@ -31,9 +31,18 @@ $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
                                         <input type="email" class="form-control required" name="email"
                                                placeholder="e-mail" value="<?= $currentUser->getEmail(); ?>"
                                                id="email" disabled
-                                               aria-required="true">
+                                               aria-required="true"/>
+										<?php if ( ! is_null( $currentUser->getSociailFacebook() ) ) : ?>
+                                            <p>
+                                                <img src="//graph.facebook.com/<?= $currentUser->getSociailFacebook()->getSocialid(); ?>/picture"
+                                                ><code>Facebook fiók hozzákapcsolva!</code>
+                                            </p>
+										<?php endif; ?>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="upper" for="password">jelszó</label>
@@ -45,17 +54,18 @@ $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
                                 </div>
 
                                 <div class="col-md-6">
-		                            <?php if ( $this->settings->get( 'secure.googlecaptcaptchaenabled', 1 ) == 1 ) : ?>
+									<?php if ( $this->settings->get( 'secure.googlecaptcaptchaenabled', 1 ) == 1 ) : ?>
                                         <div class="form-group">
                                             <div class="g-recaptcha"
                                                  data-sitekey="<?= $this->settings->get( 'secure.googlecaptcaptchasitekey' ); ?>"></div>
                                         </div>
-		                            <?php endif; ?>
+									<?php endif; ?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-success"><span>Módosítás</span></button>
+                                    <button type="submit" class="button green effect icon-left"><span><i
+                                                    class="fa fa-save"></i>Módosítás</span></button>
                                 </div>
                             </div>
 
