@@ -1,7 +1,6 @@
 <?php $this->includeFile( '_view/common/htmlhead.php' );
 $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
 ?>
-<?php $this->includeFile( '_view/common/htmlhead.php' ); ?>
 <div class="wrapper">
 	<?php $this->includeFile( '_view/common/left.php' ); ?>
     <section class="background-grey p-10">
