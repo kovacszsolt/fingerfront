@@ -79,7 +79,7 @@ class user extends \site\itcrowd\secure\main {
 	 * Login page
 	 */
 	public function loginGet() {
-		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( 'http://localhost/itcrowd/secure/user/registrationgoogle/' ) );
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' ) );
 		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/loginfacebook/' ) );
 		$this->render();
 	}
@@ -92,7 +92,7 @@ class user extends \site\itcrowd\secure\main {
 		$this->_facebookClass->logout();
 		session::remove( 'googlesession' );
 		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/registrationfacebook/' ) );
-		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( 'http://localhost/itcrowd/secure/user/registrationgoogle/' ) );
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' ) );
 		$this->render();
 	}
 
@@ -330,7 +330,7 @@ class user extends \site\itcrowd\secure\main {
 	public function registrationgoogleGet() {
 
 		if ( request::get( 'code', '' ) != '' ) {
-			$this->_googleClass->setRedirectUri( 'http://localhost/itcrowd/secure/user/registrationgoogle/' );
+			$this->_googleClass->setRedirectUri( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' );
 			$_token = $this->_googleClass->getToken();
 			session::set( 'googlesession', $_token );
 			request::redirect( '/itcrowd/secure/user/registrationgoogle/' );
