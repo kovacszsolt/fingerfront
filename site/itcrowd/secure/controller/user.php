@@ -397,6 +397,10 @@ class user extends \site\itcrowd\secure\main {
 				$_userSocialRecord->setSocialid( $_me['id'] );
 				$_userSocialTable->update( $_userSocialRecord );
 			}
+			$_userRecord = $_userTable->find( $_userId );
+			session::set( 'frontuser', $_userRecord );
+			session::flash( 'message', 'Sikeresen regisztráció.' );
+			request::redirect( '/hirbekuldes/' );
 		}
 		echo 'ok';
 		exit;
