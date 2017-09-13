@@ -79,7 +79,7 @@ class user extends \site\itcrowd\secure\main {
 	 * Login page
 	 */
 	public function loginGet() {
-		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' ) );
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost() . '/itcrowd/secure/user/registrationgoogle/' ) );
 		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/loginfacebook/' ) );
 		$this->render();
 	}
@@ -92,7 +92,7 @@ class user extends \site\itcrowd\secure\main {
 		$this->_facebookClass->logout();
 		session::remove( 'googlesession' );
 		$this->view->addValue( 'facebook_login', $this->_facebookClass->getLoginURL( '/itcrowd/secure/user/registrationfacebook/' ) );
-		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' ) );
+		$this->view->addValue( 'google_login', $this->_googleClass->getRedirectURL( request::_getFullHost() . '/itcrowd/secure/user/registrationgoogle/' ) );
 		$this->render();
 	}
 
@@ -330,7 +330,7 @@ class user extends \site\itcrowd\secure\main {
 	public function registrationgoogleGet() {
 
 		if ( request::get( 'code', '' ) != '' ) {
-			$this->_googleClass->setRedirectUri( request::_getFullHost().'/itcrowd/secure/user/registrationgoogle/' );
+			$this->_googleClass->setRedirectUri( request::_getFullHost() . '/itcrowd/secure/user/registrationgoogle/' );
 			$_token = $this->_googleClass->getToken();
 			session::set( 'googlesession', $_token );
 			request::redirect( '/itcrowd/secure/user/registrationgoogle/' );
@@ -388,23 +388,7 @@ class user extends \site\itcrowd\secure\main {
 		$_userTable  = new \model\frontusers\content\table();
 		$_userRecord = $_userTable->findEmail( $_me['email'] );
 		if ( is_null( $_userRecord ) ) {
-			$_userRecord = new \model\frontusers\content\record();
-			$_userRecord->setTitle( $_me['name'] );
-			$_userRecord->setEmail( $_me['email'] );
-			$_userRecord->setPassword( \finger\random::char( 12 ) );
-			$_userRecord->setStatus( 1 );
-			$_userId           = $_userTable->add( $_userRecord );
-			$_userSocialRecord = new \model\frontusers\social\record();
-			$_userSocialRecord->setUserid( $_userId );
-			$_userSocialRecord->setType( 'facebook' );
-			$_userSocialRecord->setSocialid( $_me['id'] );
-			$_userSocialTable = new \model\frontusers\social\table();
-			$_userSocialTable->add( $_userSocialRecord );
-			$_userRecord = $_userTable->find( $_userId );
-			session::set( 'frontuser', $_userRecord );
-			session::flash( 'message', 'Sikeresen regisztráció.' );
-			request::redirect( '/hirbekuldes/' );
-
+			$this->_facbookRegistration( $_me );
 		} else {
 			$_userId           = $_userRecord->getId();
 			$_userSocialTable  = new \model\frontusers\social\table();
@@ -432,6 +416,32 @@ class user extends \site\itcrowd\secure\main {
 			session::set( 'frontuser', $frontusersContentRecord );
 			session::flash( 'message', 'Sikeresen belépés.' );
 			request::redirect( '/' );
+		} else {
+			$this->_facbookRegistration( $_me );
 		}
+	}
+
+	/**
+	 * Facebook registration
+	 * @param $_me array
+	 */
+	private function _facbookRegistration( $_me ) {
+		$_userTable  = new \model\frontusers\content\table();
+		$_userRecord = new \model\frontusers\content\record();
+		$_userRecord->setTitle( $_me['name'] );
+		$_userRecord->setEmail( $_me['email'] );
+		$_userRecord->setPassword( \finger\random::char( 12 ) );
+		$_userRecord->setStatus( 1 );
+		$_userId           = $_userTable->add( $_userRecord );
+		$_userSocialRecord = new \model\frontusers\social\record();
+		$_userSocialRecord->setUserid( $_userId );
+		$_userSocialRecord->setType( 'facebook' );
+		$_userSocialRecord->setSocialid( $_me['id'] );
+		$_userSocialTable = new \model\frontusers\social\table();
+		$_userSocialTable->add( $_userSocialRecord );
+		$_userRecord = $_userTable->find( $_userId );
+		session::set( 'frontuser', $_userRecord );
+		session::flash( 'message', 'Sikeres belépés.' );
+		request::redirect( '/hirbekuldes/' );
 	}
 }
