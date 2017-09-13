@@ -7,7 +7,7 @@
 	<div class="footer-content">
 		<div class="container">
 			<div class="row text-center">
-				<img alt="IT Crowd" src="/site/itcrowd/images/logo-sm-dark.png">
+				<img alt="IT Crowd" src="/site/itcrowd/images/logo.png">
 				<div class="copyright-text text-center"> © <?= date( 'Y' ); ?> ITcrowd . Hu - Az Internet közepe.
 				</div>
 				<div class="social-icons center">
