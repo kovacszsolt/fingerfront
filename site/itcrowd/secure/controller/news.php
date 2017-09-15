@@ -27,6 +27,7 @@ class news extends \site\itcrowd\secure\main {
 		$this->render();
 	}
 
+
 	/**
 	 * Add news process page
 	 * AJAX Call
@@ -43,6 +44,10 @@ class news extends \site\itcrowd\secure\main {
 			if ( $_pageData['title'] == '' ) {
 				$_result['message'] = 'nodatafound';
 			} else {
+				$_userId = 0;
+				if ( ! is_null( $this->currentUser ) ) {
+					$_userId = $this->currentUser->getId();
+				}
 				$_contentTable  = new contentTable();
 				$_contentRecord = $_contentTable->findLink( $_url );
 				if ( $_contentRecord instanceof contentRecord ) {
@@ -52,7 +57,7 @@ class news extends \site\itcrowd\secure\main {
 					$_type             = request::get( 'type' );
 					$_url              = request::get( 'url' );
 					$_contentTable     = new contentTable();
-					$_contentTable->addUrl( $_url, (int) $_type, $this->currentUser->getId() );
+					$_contentTable->addUrl( $_url, (int) $_type, $_userId );
 
 					$this->sendMail( $_contentTable->_lastInsertID, $_pageData );
 				}
@@ -66,6 +71,7 @@ class news extends \site\itcrowd\secure\main {
 
 	/**
 	 * Send mail to admin
+	 *
 	 * @param $_contentID
 	 * @param $pageData
 	 */
@@ -76,7 +82,11 @@ class news extends \site\itcrowd\secure\main {
 		$_htmlView->addValue( 'currentUser', $this->currentUser );
 		$_htmlView->addValue( 'record', $_contentRecord );
 		$_htmlView->addValue( 'pageData', $pageData );
-		$_htmlView->setFile( 'site/itcrowd/secure/email/newsadd.php' );
+		if (is_null($this->currentUser )) {
+			$_htmlView->setFile( 'site/itcrowd/secure/email/newsaddanno.php' );
+		} else {
+			$_htmlView->setFile( 'site/itcrowd/secure/email/newsadd.php' );
+		}
 		$_htmlContent = $_htmlView->render( false );
 		$_mail        = new mail();
 		$_mail->setSubject( 'ITCrowd . hu link beküldés' );

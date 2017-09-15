@@ -68,3 +68,8 @@ gulp.task('js_task', function () {
 gulp.task('all_task', function () {
     gulp.start('css_task','images_task','js_task');
 });
+
+// watch js files
+gulp.task('js_watch', function () {
+    gulp.watch([js_files], ['js_task']);
+});

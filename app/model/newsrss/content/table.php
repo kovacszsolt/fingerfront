@@ -157,7 +157,11 @@ class table extends \finger\model\table {
 			$_urlSEO              = \finger\routing::createSEOUrl( $_pageData['title'] );
 			$newsrssContentTable  = new $this();
 			$newsrssContentRecord = new \model\newsrss\content\record();
-			$newsrssContentRecord = $this->addUrlCreateRecord( $newsrssContentRecord, $_pageData, $type, $_urlSEO, $url );
+			$_status              = 1;
+			if ( $frontuserid == 0 ) {
+				$_status = 0;
+			}
+			$newsrssContentRecord = $this->addUrlCreateRecord( $newsrssContentRecord, $_pageData, $type, $_urlSEO, $url, $_status );
 			$newsrssContentRecord->setFrontuserid( $frontuserid );
 			$_id = $newsrssContentTable->add( $newsrssContentRecord );
 			$this->addUrlLanguage( $_id, $_pageData, $_urlSEO );
@@ -212,16 +216,17 @@ class table extends \finger\model\table {
 	 * @param int $type
 	 * @param string $_urlSEO
 	 * @param string $url
+	 * @param int $frontuserid
 	 *
 	 * @return mixed
 	 */
-	private function addUrlCreateRecord( $newsrssContentRecord, $_pageData, int $type, string $_urlSEO, string $url ) {
+	private function addUrlCreateRecord( $newsrssContentRecord, $_pageData, int $type, string $_urlSEO, string $url, int $status = 1 ) {
 		$newsrssContentRecord->setTitle( $_pageData['title'] );
 		$newsrssContentRecord->setTypeid( $type );
 		$newsrssContentRecord->setIntro( $_pageData['title'] );
 		$newsrssContentRecord->setUrl( $_urlSEO );
 		$newsrssContentRecord->setLink( $url );
-		$newsrssContentRecord->setStatus( 1 );
+		$newsrssContentRecord->setStatus( $status );
 
 		return $newsrssContentRecord;
 	}

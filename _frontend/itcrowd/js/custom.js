@@ -140,6 +140,7 @@ class form {
     }
 
     newsadd(msg) {
+        console.log('w');
         switch (msg.result) {
             case 'error' :
                 switch (msg.message) {
@@ -259,7 +260,17 @@ $(document).ready(function () {
                     myForm[myForm.getMethod()](msg);
                     $('#form_submit_wait').remove();
                     _mainSubmitButton.html(_mainSubmitText);
-                });
+                })
+                .error(function (xhr, ajaxOptions, thrownError) {
+                        if (myForm.getMethod() == 'newsadd') {
+                            $('#url').val('');
+                            $(document).fingerValidator.notify('A linket rögzítettük a rendszerben.');
+                        } else {
+                            $(document).fingerValidator.notify('Valami hiba lépett fel. hoppp.');
+                        }
+                    }
+                )
+
         }
     });
 });

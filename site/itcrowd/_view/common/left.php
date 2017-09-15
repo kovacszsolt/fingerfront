@@ -30,15 +30,16 @@
                             <li>
                                 <a class="text-light navbar-link"
                                    href="/az-oldalrol/">Az oldalról</a></li>
+                            <li><a class="navbar-link" href="/hirbekuldes/">Hír beküldés <span class="label label-danger">Segíts</span></a></li>
 							<?php if ( is_null( $this->getValue( 'currentuser' ) ) ) : ?>
                                     <li><a class="navbar-link" href="/bejelentkezes/">Bejelentkezés</a></li>
                                     <li><a class="navbar-link" href="/regisztracio/">Regisztráció</a></li>
                                     <li><a class="navbar-link" href="/elfelejtett-jelszo/">Elfelejtett jelszó</a></li>
 							<?php else : ?>
                                     <li><a class="navbar-link" href="/adataid/">Adataid</a></li>
-                                    <li><a class="navbar-link" href="/hirbekuldes/">Hír beküldés</a></li>
                                     <li><a class="navbar-link" href="/kijelentkezes/">Kijelentkezés</a></li>
 							<?php endif; ?>
+
 						</ul>
 					</div>
 					<div class="panel-widget">
