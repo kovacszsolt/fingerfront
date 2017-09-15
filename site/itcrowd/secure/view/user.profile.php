@@ -1,4 +1,4 @@
-<?php $this->includeFile( '_view/common/htmlhead.php' );
+<?php
 $currentUser           = $this->getValue( 'currentuser', null );
 $newsrssContentRecords = $this->getValue( 'newsrssContentRecords', array() );
 ?>
