@@ -4,7 +4,7 @@ $newsrsscontentrecords = $this->getvalue( 'newsrsscontentrecords', array() );
 ?>
 
 <div class="wrapper">
-	<?php $this->includefile( '_view/common/left.php' ); ?>
+	<?php $this->includefile( '_view/common/menu.php' ); ?>
     <section class="background-grey p-10">
         <div class="isotope" data-isotope-item-space="1" data-isotope-col="12" data-isotope-item=".post-item">
             <div class="post-item">

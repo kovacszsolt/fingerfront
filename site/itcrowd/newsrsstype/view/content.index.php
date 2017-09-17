@@ -1,6 +1,6 @@
 <?php $this->includeFile( '_view/common/htmlhead.php' ); ?>
     <div class="wrapper">
-	    <?php $this->includeFile( '_view/common/left.php' ); ?>
+	    <?php $this->includeFile( '_view/common/menu.php' ); ?>
         <section class="background-grey p-10">
             <div id="cookiepolicy" role="alert" class="alert alert-success hidden"> <strong>Az oldal sütit használ!</strong> <a href="/adatkezelesi-nyilatkozat/">Az adatkezelési nyilatkozatot itt olvashatod el.</a> <a href="#" id="cookiepolicy_ok" class="btn btn-info btn-xs" >Megértettem.</a> </div>
             <div class="isotope" data-isotope-item-space="1" data-isotope-col="3" data-isotope-item=".post-item">

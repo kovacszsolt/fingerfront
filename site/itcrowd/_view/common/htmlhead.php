@@ -44,7 +44,7 @@
 </head>
 
 
-<body class="wide wide side-panel-static">
+<body class="wide wide ">
 <?php
 /**
  * Facebook javascript library
